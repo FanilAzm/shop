@@ -1,17 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <vMainWrapper />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import vMainWrapper from '@/components/v-main-wrapper'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    vMainWrapper
+  },
+  computed: {
+    ...mapGetters([
+      'IS_DESKTOP',
+      'IS_MOBILE'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'SET_DESKTOP',
+      'SET_MOBILE'
+    ])
+  },
+  mounted() {
+    let vm = this
+
+    window.addEventListener('resize', () => {
+      if(window.innerWidth > 767) {
+        vm.SET_DESKTOP()
+      } else {
+        vm.SET_MOBILE()
+      }
+    })
   }
 }
 </script>
